@@ -2,8 +2,8 @@
 
 import * as z from 'zod';
 import axios from 'axios';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {useForm} from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -22,17 +22,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { Course } from '@prisma/client';
 import { Combobox } from '@/components/ui/combobox';
 
-
-
 interface CategoryFormProps {
   initialData: Course;
   courseId: string;
   options: { label: string; value: string; }[];
-};
+}
 
 const formSchema = z.object({
   categoryId: z.string().min(1),
-  });
+});
 
 export const CategoryForm = ({
   initialData,
@@ -48,7 +46,7 @@ export const CategoryForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      categoryId: initialData?.categoryId || ""   
+      categoryId: initialData?.categoryId || ""
     },
   });
 
@@ -96,15 +94,16 @@ export const CategoryForm = ({
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-4 mt-4"
           >
-            <FormField 
+            <FormField
               control={form.control}
               name="categoryId"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Combobox 
-                      options={...options}
-                      {...field}
+                      options={options}
+                      value={field.value}
+                      onChange={field.onChange}
                     />
                   </FormControl>
                   <FormMessage />
